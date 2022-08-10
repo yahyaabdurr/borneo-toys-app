@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "456921791271",
+    "project_id": "borneo-toys",
+    "storage_bucket": "borneo-toys.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456921791271:android:996d0734877a9337970702",
+        "android_client_info": {
+          "package_name": "com.example.borneo_toys"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456921791271-3s72lu63lh6t6hbabs9regabuk5dqbu3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCi0FEilBfGMLNM8WGDsz1XtEkQGQpzuYk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456921791271-3s72lu63lh6t6hbabs9regabuk5dqbu3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

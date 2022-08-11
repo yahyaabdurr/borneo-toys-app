@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:borneo_toys/commons/theme.dart';
 import 'package:borneo_toys/controller/controllers.dart';
 import 'package:borneo_toys/models/invoice_model.dart';
@@ -17,6 +19,7 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+part 'splash_page.dart';
 part 'login_page.dart';
 part 'invoice_page.dart';
 part 'about_page.dart';

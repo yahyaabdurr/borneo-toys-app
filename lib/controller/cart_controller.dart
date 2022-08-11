@@ -72,11 +72,30 @@ class CartController extends ChangeNotifier {
     }
   }
 
-  // Future deleteCarts(Product product) {
+  Future deleteCartItem(Product? product) async {
+    final User? user = auth.currentUser;
+    final uid = user?.uid ?? "";
 
-  // }
+    Cart? userCart = await service.isUserAlreadyExist(uid);
+
+    if (userCart != null) {
+      List<Items> items = userCart.items ?? [];
+      for (int i = 0; i < (items.length); i++) {
+        if (items[i].productId == product?.productId) {
+          items.remove(items[i]);
+        }
+      }
+
+      Cart cart = Cart(id: userCart.id, userId: uid, items: items);
+      await service.updateCart(cart);
+
+      getCarts();
+    }
+  }
 
   Future<void> getCarts() async {
+    _totalPrice = 0;
+    _totalProduk = 0;
     final User? user = auth.currentUser;
     final uid = user?.uid ?? "";
 
@@ -104,47 +123,58 @@ class CartController extends ChangeNotifier {
   Future<void> submit(BuildContext context) async {
     setIsLoading(true);
     final InvoiceService invoiceService = InvoiceService();
+    final ProductService productService = ProductService();
     final User? user = auth.currentUser;
 
-    String now = DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now());
-    String formatted =
-        now.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
-    var rng = Random();
-    String randomNumber = rng.nextInt(999).toString().padLeft(3, '0');
-    final uid = user?.uid ?? "";
-    String invoiceNo = "INV/$formatted/$randomNumber";
-    List<ProductItems> listProduct = [];
+    try {
+      String now = DateFormat("yyyy-MM-dd hh:mm:ss").format(DateTime.now());
+      String formatted =
+          now.replaceAll("-", "").replaceAll(":", "").replaceAll(" ", "");
+      var rng = Random();
+      String randomNumber = rng.nextInt(999).toString().padLeft(3, '0');
+      final uid = user?.uid ?? "";
+      String invoiceNo = "INV/$formatted/$randomNumber";
+      List<ProductItems> listProduct = [];
 
-    for (int i = 0; i < _totalProduk; i++) {
-      ProductItems item = ProductItems(
-          quantity: cart?.items![i].numOfProducts ?? 0,
-          productId: retrievedproductsList[i]?.productId ?? "",
-          productPrice: retrievedproductsList[i]?.itemPrice ?? 0,
-          productName: retrievedproductsList[i]?.itemName ?? "");
-      listProduct.add(item);
+      for (int i = 0; i < _totalProduk; i++) {
+        ProductItems item = ProductItems(
+            quantity: cart?.items![i].numOfProducts ?? 0,
+            productId: retrievedproductsList[i]?.productId ?? "",
+            productPrice: retrievedproductsList[i]?.itemPrice ?? 0,
+            productName: retrievedproductsList[i]?.itemName ?? "");
+        listProduct.add(item);
+
+        Product? productUpdate = retrievedproductsList[i];
+        productUpdate?.itemStock =
+            (productUpdate.itemStock - (cart?.items?[i].numOfProducts ?? 0));
+        await productService.updateProduct(productUpdate);
+      }
+
+      Invoice invoice = Invoice(
+          userId: uid,
+          invoiceNo: invoiceNo,
+          totalPrice: _totalPrice,
+          totalProduk: _totalProduk,
+          trasactionDate: now,
+          items: listProduct);
+
+      await invoiceService.addIvoice(invoice);
+      await service.deleteCart(cart?.id);
+      await Future.delayed(const Duration(seconds: 1));
+      await GlobalFuntion.alert(
+          context: context,
+          message: "Transaksi Berhasil",
+          titleButton: "OK",
+          onTap: () async {
+            Get.offAll(const InvoicePage());
+            var provider =
+                Provider.of<InvoiceController>(context, listen: false);
+            final pdfFile = await provider.generate(invoice);
+            provider.openFile(pdfFile);
+          });
+      setIsLoading(false);
+    } catch (e) {
+      setIsLoading(false);
     }
-
-    Invoice invoice = Invoice(
-        userId: uid,
-        invoiceNo: invoiceNo,
-        totalPrice: _totalPrice,
-        totalProduk: _totalProduk,
-        trasactionDate: now,
-        items: listProduct);
-
-    await invoiceService.addIvoice(invoice);
-    await service.deleteCart(cart?.id);
-    await Future.delayed(const Duration(seconds: 1));
-    await GlobalFuntion.alert(
-        context: context,
-        message: "Transaksi Berhasil",
-        titleButton: "OK",
-        onTap: () async {
-          Get.off(const InvoicePage());
-          var provider = Provider.of<InvoiceController>(context, listen: false);
-          final pdfFile = await provider.generate(invoice);
-          provider.openFile(pdfFile);
-        });
-    setIsLoading(false);
   }
 }

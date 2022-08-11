@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_interpolation_to_compose_strings
+
 part of 'widgets.dart';
 
 // ignore: must_be_immutable
@@ -70,7 +72,8 @@ class ProductCard extends StatelessWidget {
                       height: 5,
                     ),
                     Text(
-                      "Harga : ${product?.itemPrice.toString()}",
+                      "Harga : " +
+                          Utils.formatCurrency(product?.itemPrice ?? 0),
                       style: nunitoTextFont.copyWith(fontSize: 16),
                     ),
                     const SizedBox(
@@ -146,7 +149,7 @@ class ProductCard extends StatelessWidget {
                       fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  "Rp  ${product?.itemPrice.toString()}",
+                  Utils.formatCurrency(product?.itemPrice ?? 0),
                   style: nunitoTextFont.copyWith(
                       fontSize: 20, fontWeight: FontWeight.bold),
                 )

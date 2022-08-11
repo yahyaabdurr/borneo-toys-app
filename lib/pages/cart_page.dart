@@ -92,174 +92,204 @@ class _CartPageState extends State<CartPage> {
               ),
             ),
           ),
-          child: SafeArea(
-            child: Scaffold(
-              appBar: AppBar(
-                centerTitle: true,
-                title: const Text("Keranjang"),
-                titleTextStyle: nunitoTextFont.copyWith(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-                backgroundColor: primaryColor,
-                leading: GestureDetector(
-                  onTap: () {
-                    Get.off(const HomePage());
-                  },
-                  child: const SizedBox(
-                    height: 24,
-                    width: 24,
-                    child: Icon(Icons.arrow_back, color: Colors.black),
+          child: WillPopScope(
+            onWillPop: () async {
+              Get.offAll(const HomePage());
+              return true;
+            },
+            child: SafeArea(
+              child: Scaffold(
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: const Text("Keranjang"),
+                  titleTextStyle: nunitoTextFont.copyWith(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold),
+                  backgroundColor: primaryColor,
+                  leading: GestureDetector(
+                    onTap: () {
+                      Get.off(const HomePage());
+                    },
+                    child: const SizedBox(
+                      height: 24,
+                      width: 24,
+                      child: Icon(Icons.arrow_back, color: Colors.black),
+                    ),
                   ),
                 ),
-              ),
-              body: SingleChildScrollView(
-                  child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                child: Column(
-                  children: [
-                    provider.retrievedproductsList.isNotEmpty
-                        ? ListView.separated(
-                            shrinkWrap: true,
-                            itemCount: provider.retrievedproductsList.length,
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(
-                                  height: 5,
-                                ),
-                            itemBuilder: (context, index) {
-                              return Dismissible(
-                                onDismissed: (direction) {
-                                  // await service.deleteEmployee(
-                                  //     retrievedEmployeeList![index]
-                                  //         .id
-                                  //         .toString());
-                                  // _dismiss();
-                                },
-                                background: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius:
-                                          BorderRadius.circular(16.0)),
-                                  padding: const EdgeInsets.only(right: 28.0),
-                                  alignment: AlignmentDirectional.centerEnd,
-                                  child: const Text(
-                                    "DELETE",
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ),
-                                direction: DismissDirection.endToStart,
-                                resizeDuration:
-                                    const Duration(milliseconds: 200),
-                                key: UniqueKey(),
-                                child: CartCard(
-                                  product:
-                                      provider.retrievedproductsList[index],
-                                  numOfProducts: provider
-                                          .cart?.items?[index].numOfProducts ??
-                                      1,
-                                ),
-                              );
-                            })
-                        : SizedBox(
-                            height: (MediaQuery.of(context).size.height -
-                                AppBar().preferredSize.height -
-                                70),
-                            width: MediaQuery.of(context).size.width,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                SizedBox(
-                                    height: 100,
-                                    width: 100,
-                                    child: Lottie.asset(
-                                        'assets/lotties/empty.json')),
-                                Text(
-                                  "Product pada keranjang belum tersedia",
-                                  style: nunitoTextFont.copyWith(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                Text(
-                                  "Silahkan tambahkan product terlebih dahulu",
-                                  style: nunitoTextFont.copyWith(
-                                    fontSize: 16,
-                                  ),
-                                )
-                              ],
+                body: SingleChildScrollView(
+                    child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 35,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            Get.to(const ProductPage());
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all(primaryColor),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
                             ),
-                          )
-                  ],
-                ),
-              )),
-              bottomNavigationBar: provider.retrievedproductsList.isNotEmpty
-                  ? Container(
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 5.0,
-                            spreadRadius: -2.0,
-                            offset: Offset(-3.0, 0.0),
-                          )
-                        ],
+                          ),
+                          child: Text(
+                            "+ Tambah Produk",
+                            style: nunitoTextFont.copyWith(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
                       ),
-                      height: 50,
-                      width: double.infinity,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 15),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                      const SizedBox(height: 15),
+                      provider.retrievedproductsList.isNotEmpty
+                          ? ListView.separated(
+                              shrinkWrap: true,
+                              itemCount: provider.retrievedproductsList.length,
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                              itemBuilder: (context, index) {
+                                return Dismissible(
+                                  onDismissed: (direction) async {
+                                    await provider.deleteCartItem(
+                                        provider.retrievedproductsList[index]);
+                                  },
+                                  background: Container(
+                                    decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius:
+                                            BorderRadius.circular(16.0)),
+                                    padding: const EdgeInsets.only(right: 28.0),
+                                    alignment: AlignmentDirectional.centerEnd,
+                                    child: const Text(
+                                      "DELETE",
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ),
+                                  direction: DismissDirection.endToStart,
+                                  resizeDuration:
+                                      const Duration(milliseconds: 200),
+                                  key: UniqueKey(),
+                                  child: CartCard(
+                                    product:
+                                        provider.retrievedproductsList[index],
+                                    numOfProducts: provider.cart?.items?[index]
+                                            .numOfProducts ??
+                                        1,
+                                  ),
+                                );
+                              })
+                          : SizedBox(
+                              height: (MediaQuery.of(context).size.height -
+                                  AppBar().preferredSize.height -
+                                  70),
+                              width: MediaQuery.of(context).size.width,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                  SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: Lottie.asset(
+                                          'assets/lotties/empty.json')),
                                   Text(
-                                      "Total Harga : ${formatter.format(provider.totalPrice)}",
-                                      style: nunitoTextFont.copyWith(
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold)),
+                                    "Product pada keranjang belum tersedia",
+                                    style: nunitoTextFont.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                   Text(
-                                      "Total Barang : ${provider.totalProduk.toString()} ",
-                                      style: nunitoTextFont.copyWith(
-                                        fontSize: 15,
-                                      ))
+                                    "Silahkan tambahkan product terlebih dahulu",
+                                    style: nunitoTextFont.copyWith(
+                                      fontSize: 16,
+                                    ),
+                                  )
                                 ],
                               ),
-                              SizedBox(
-                                height: 35,
-                                width: 110,
-                                child: ElevatedButton(
-                                  onPressed: () async {
-                                    showMyDialog(context);
-                                  },
-                                  style: ButtonStyle(
-                                    backgroundColor:
-                                        MaterialStateProperty.all(primaryColor),
-                                    shape: MaterialStateProperty.all<
-                                        RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
+                            )
+                    ],
+                  ),
+                )),
+                bottomNavigationBar: provider.retrievedproductsList.isNotEmpty
+                    ? Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 5.0,
+                              spreadRadius: -2.0,
+                              offset: Offset(-3.0, 0.0),
+                            )
+                          ],
+                        ),
+                        height: 50,
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 15),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                        "Total Harga : ${formatter.format(provider.totalPrice)}",
+                                        style: nunitoTextFont.copyWith(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold)),
+                                    Text(
+                                        "Total Barang : ${provider.totalProduk.toString()} ",
+                                        style: nunitoTextFont.copyWith(
+                                          fontSize: 15,
+                                        ))
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 35,
+                                  width: 110,
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      showMyDialog(context);
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              primaryColor),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Berikutnya",
+                                      style: nunitoTextFont.copyWith(
+                                        fontSize: 18,
                                       ),
                                     ),
                                   ),
-                                  child: Text(
-                                    "Berikutnya",
-                                    style: nunitoTextFont.copyWith(
-                                      fontSize: 18,
-                                    ),
-                                  ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ))
-                  : const SizedBox(),
+                              ],
+                            )
+                          ],
+                        ))
+                    : const SizedBox(),
+              ),
             ),
           ),
         );

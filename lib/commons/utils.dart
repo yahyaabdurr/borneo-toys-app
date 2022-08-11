@@ -6,4 +6,11 @@ class Utils {
     DateTime parseDate = DateFormat("yyyy-MM-dd HH:mm:ss").parse(date);
     return DateFormat('d MMMM yyyy').format(parseDate);
   }
+
+  static formatCurrency(int value) {
+    final formatter =
+        NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0);
+
+    return formatter.format(value);
+  }
 }

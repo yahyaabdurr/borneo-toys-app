@@ -19,16 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     formKey = GlobalKey<FormState>();
-    loadUserInfo();
-  }
-
-  loadUserInfo() async {
-    bool isAlreadyLogin =
-        (await storage.read(key: "isAlreadyLogin") ?? "") == "true";
-
-    if (isAlreadyLogin) {
-      Get.offAll(const HomePage());
-    }
   }
 
   @override

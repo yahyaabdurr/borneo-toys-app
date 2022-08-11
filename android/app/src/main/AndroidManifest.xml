@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.borneo_toys">
    <application
-        android:label="borneo_toys"
+        android:label="Borneo Toys"
         android:name="${applicationName}"
         android:icon="@drawable/ic_launcher">
         <activity

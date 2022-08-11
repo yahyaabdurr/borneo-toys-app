@@ -11,11 +11,13 @@ class ProductService {
         .toList();
   }
 
-  updateProduct(Product productData) async {
-    await _db
-        .collection("products")
-        .doc(productData.id)
-        .update(productData.toJson());
+  Future<void> updateProduct(Product? productData) async {
+    if (productData != null) {
+      await _db
+          .collection("products")
+          .doc(productData.id)
+          .update(productData.toJson());
+    }
   }
 
   Future<Product> getProduct(String docId) async {

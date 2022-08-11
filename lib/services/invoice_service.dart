@@ -113,8 +113,8 @@ class InvoiceService {
       return [
         item.productName,
         '${item.quantity}',
-        '\$ ${item.productPrice}',
-        '\$ ${total.toStringAsFixed(2)}',
+        Utils.formatCurrency(item.productPrice),
+        Utils.formatCurrency(total),
       ];
     }).toList();
 
@@ -151,7 +151,7 @@ class InvoiceService {
               children: [
                 buildText(
                   title: 'Net total',
-                  value: Utils.formatPrice(netTotal),
+                  value: Utils.formatCurrency(netTotal ?? 0),
                   unite: true,
                 ),
                 Divider(),
@@ -161,7 +161,7 @@ class InvoiceService {
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
-                  value: Utils.formatPrice(netTotal),
+                  value: Utils.formatCurrency(netTotal ?? 0),
                   unite: true,
                 ),
                 SizedBox(height: 2 * PdfPageFormat.mm),

@@ -6,7 +6,7 @@ class Product {
   final String? id;
   final String productId;
   final String itemName;
-  final int itemStock;
+  int itemStock;
   final int itemPrice;
 
   Product(

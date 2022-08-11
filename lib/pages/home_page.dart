@@ -48,7 +48,7 @@ class HomePage extends StatelessWidget {
                   onPressed: () async {
                     FlutterSecureStorage storage = const FlutterSecureStorage();
                     await storage.write(key: "isAlreadyLogin", value: "false");
-                    Get.to(const LoginPage());
+                    Get.offAll(const LoginPage());
                   },
                 ),
               ),

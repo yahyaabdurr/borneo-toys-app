@@ -40,7 +40,7 @@ class CartCard extends StatelessWidget {
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "Rp  ${product?.itemPrice.toString()}",
+                          Utils.formatCurrency(product?.itemPrice ?? 0),
                           style: nunitoTextFont.copyWith(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         )

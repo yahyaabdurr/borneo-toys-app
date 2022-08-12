@@ -4,9 +4,9 @@
     <item android:drawable="?android:colorBackground" />
 
     <!-- You can insert your own image assets here -->
-    <item>
+    <!-- <item>
         <bitmap
             android:gravity="center"
             android:drawable="@drawable/borneo_toys" />
-    </item>
+    </item> -->
 </layer-list>

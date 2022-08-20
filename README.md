@@ -1,4 +1,4 @@
-# borneo_toys
+# Borneo Toys Application
 
 Borneo Toys is an Application for buy toys product from everywhere.
 

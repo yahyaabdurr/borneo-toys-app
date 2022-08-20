@@ -55,15 +55,4 @@ class ProductController extends ChangeNotifier {
       notifyListeners();
     }
   }
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   _initRetrieval();
-  // }
-
-  // Future<void> _initRetrieval() async {
-  //   productsList = service.retrieveProducts();
-  //   retrievedproductsList = await service.retrieveProducts();
-  // }
 }

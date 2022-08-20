@@ -19,10 +19,13 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../commons/global_functions.dart';
+
 part 'splash_page.dart';
 part 'login_page.dart';
 part 'invoice_page.dart';
 part 'about_page.dart';
 part 'cart_page.dart';
 part 'home_page.dart';
+part 'reset_password_page.dart';
 part 'products_page.dart';

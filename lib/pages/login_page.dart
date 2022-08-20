@@ -201,10 +201,14 @@ class _LoginPageState extends State<LoginPage> {
                         height: 15,
                       ),
                       Center(
-                        child: Text(
-                          "Lupa Password ?",
-                          style: nunitoTextFont.copyWith(
-                            fontSize: 16,
+                        child: InkWell(
+                          onTap: () {
+                            Get.to(const ResetPasswordPage());
+                          },
+                          child: Text(
+                            "Lupa Password ?",
+                            style: nunitoTextFont.copyWith(
+                                fontSize: 16, color: blueColor),
                           ),
                         ),
                       ),

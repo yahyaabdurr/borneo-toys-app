@@ -3,7 +3,7 @@
    <application
         android:label="Borneo Toys"
         android:name="${applicationName}"
-        android:icon="@drawable/ic_launcher">
+        android:icon="@mipmap/borneo_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

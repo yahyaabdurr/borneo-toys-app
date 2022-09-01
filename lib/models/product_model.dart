@@ -6,6 +6,7 @@ class Product {
   final String? id;
   final String productId;
   final String itemName;
+  final String itemCategory;
   int itemStock;
   final int itemPrice;
 
@@ -14,12 +15,14 @@ class Product {
       this.id,
       required this.itemStock,
       required this.itemPrice,
-      required this.itemName});
+      required this.itemName,
+      required this.itemCategory});
 
   Product.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> doc)
       : id = doc.id,
         productId = doc.data()!["productId"],
         itemName = doc.data()!["itemName"],
+        itemCategory = doc.data()!["itemCategory"],
         itemStock = doc.data()!["itemStock"],
         itemPrice = doc.data()!["itemPrice"];
 
@@ -27,6 +30,7 @@ class Product {
     return {
       'productId': productId,
       'itemName': itemName,
+      'itemCategory': itemCategory,
       'itemPrice': itemPrice,
       'itemStock': itemStock,
     };

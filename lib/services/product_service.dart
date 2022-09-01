@@ -28,6 +28,7 @@ class ProductService {
     return Product(
         id: docId,
         itemName: data['itemName'],
+        itemCategory: data['itemCategory'],
         itemPrice: data['itemPrice'],
         itemStock: data['itemName'],
         productId: data['itemName']);

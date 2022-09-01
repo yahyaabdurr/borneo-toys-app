@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:borneo_toys/commons/theme.dart';
+import 'package:borneo_toys/controller/category_controller.dart';
 import 'package:borneo_toys/controller/controllers.dart';
+import 'package:borneo_toys/models/category_model.dart';
 import 'package:borneo_toys/models/invoice_model.dart';
 import 'package:borneo_toys/models/product_model.dart';
 import 'package:borneo_toys/services/services.dart';
@@ -29,3 +31,4 @@ part 'cart_page.dart';
 part 'home_page.dart';
 part 'reset_password_page.dart';
 part 'products_page.dart';
+part 'category_search_page.dart';

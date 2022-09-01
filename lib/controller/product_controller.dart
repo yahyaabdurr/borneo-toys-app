@@ -9,16 +9,17 @@ class ProductController extends ChangeNotifier {
 
   List<String> poolSearch = [];
 
-  void initData() async {
+  void initData(String categoryId) async {
     searchQuery.clear();
     await initProducts();
+    await addToPoolSearch();
     searchData();
+    sortByCategory(categoryId);
   }
 
   Future<void> initProducts() async {
     productsList = service.retrieveProducts();
     tempProductList = await service.retrieveProducts();
-    await addToPoolSearch();
   }
 
   Future<void> addToPoolSearch() async {
@@ -34,6 +35,7 @@ class ProductController extends ChangeNotifier {
   void searchData() {
     List<Product> productAfterSearch = [];
     if (searchQuery.text.isEmpty) {
+      initProducts();
       retrievedproductsList = tempProductList;
     } else {
       List<String> listSearch =
@@ -51,8 +53,25 @@ class ProductController extends ChangeNotifier {
         index++;
       }
 
-      retrievedproductsList = productAfterSearch;
-      notifyListeners();
+      tempProductList = productAfterSearch;
     }
+    notifyListeners();
+  }
+
+  void sortByCategory(String categoryId) {
+    List<Product> productAfterSort = [];
+    notifyListeners();
+    if (categoryId.toLowerCase() == 'ca005') {
+      productAfterSort = tempProductList;
+    } else {
+      for (Product product in tempProductList) {
+        if (product.itemCategory.toLowerCase() == categoryId.toLowerCase()) {
+          productAfterSort.add(product);
+        }
+      }
+    }
+
+    retrievedproductsList = productAfterSort;
+    notifyListeners();
   }
 }

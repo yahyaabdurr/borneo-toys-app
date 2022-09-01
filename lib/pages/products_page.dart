@@ -11,13 +11,20 @@ class _ProductPageState extends State<ProductPage> {
   ProductService service = ProductService();
   Future<List<Product>>? productsList;
   List<Product>? retrievedproductsList;
+  Category filterBy = Get.arguments ??
+      Category(
+          categoryId: "ca005",
+          categoryDesc: "Semua",
+          effectiveDate: "2022-08-22 05:50:09",
+          active: true);
 
   @override
   void initState() {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      Provider.of<ProductController>(context, listen: false).initData();
+      Provider.of<ProductController>(context, listen: false)
+          .initData(filterBy.categoryId);
     });
   }
 
@@ -43,7 +50,8 @@ class _ProductPageState extends State<ProductPage> {
         ),
       ),
       body: SingleChildScrollView(
-          child: Padding(
+          child: Container(
+        width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         child: Consumer<ProductController>(builder: (context, provider, _) {
           return Column(
@@ -53,6 +61,7 @@ class _ProductPageState extends State<ProductPage> {
                 child: TextField(
                   onEditingComplete: () {
                     provider.searchData();
+                    provider.sortByCategory(filterBy.categoryId);
                     FocusScopeNode currentFocus = FocusScope.of(context);
 
                     if (!currentFocus.hasPrimaryFocus) {
@@ -69,6 +78,55 @@ class _ProductPageState extends State<ProductPage> {
                       ),
                       suffixIcon: const Icon(Icons.search)),
                 ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Filter Category",
+                    style: nunitoTextFont.copyWith(fontSize: 22),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      Get.to(CategorySearchPage());
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: filterBy.categoryDesc.toLowerCase() == "semua"
+                            ? Colors.white
+                            : greenBackColor,
+                        border: Border.all(
+                            color:
+                                filterBy.categoryDesc.toLowerCase() == "semua"
+                                    ? Colors.grey
+                                    : greenLineColor),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Row(children: [
+                        Text(
+                          filterBy.categoryDesc,
+                          style: nunitoTextFont.copyWith(
+                              fontSize: 16,
+                              color:
+                                  filterBy.categoryDesc.toLowerCase() == "semua"
+                                      ? Colors.black
+                                      : greenTextColor),
+                        ),
+                        Icon(
+                          Icons.arrow_drop_down,
+                          color: filterBy.categoryDesc.toLowerCase() == "semua"
+                              ? Colors.black
+                              : greenTextColor,
+                        ),
+                      ]),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 20,

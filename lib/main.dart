@@ -1,3 +1,4 @@
+import 'package:borneo_toys/controller/category_controller.dart';
 import 'package:borneo_toys/controller/controllers.dart';
 import 'package:borneo_toys/pages/pages.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +14,7 @@ void main() async {
     ChangeNotifierProvider(create: (context) => ProductController()),
     ChangeNotifierProvider(create: (context) => CartController()),
     ChangeNotifierProvider(create: (context) => InvoiceController()),
+    ChangeNotifierProvider(create: (context) => CategoryController()),
   ], child: const MyApp()));
 }
 

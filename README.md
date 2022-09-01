@@ -1,16 +1,17 @@
-# borneo_toys
+# Borneo Toys Application
 
-A new Flutter project.
+Borneo Toys is an Application for buy toys product from everywhere.
 
-## Getting Started
+### Main Features
+- Sign in and Reset password using firebase
+- Automaticaly generate invoices when transactions success
+- Automaticaly update stock products when transactions success
+- Realtime get stock, price products
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+#### BUILD APK VERSION RELEASE
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```text
+flutter build apk --split-per-abi
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
